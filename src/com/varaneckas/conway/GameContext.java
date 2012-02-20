@@ -51,14 +51,24 @@ public class GameContext {
 		input = new Input();
 	}
 	
+	/** 
+	 * Static factory method that creates the instance of {@link GameContext}.
+	 * @return new instance of {@link GameContext}.
+	 */
 	public static GameContext create() {
 		return new GameContext();
 	}
 
+	/**
+	 * Changes the game state. Becomes effective in next main loop cycle.
+	 * @param state New game {@link State}.
+	 */
 	public void setState(State state) {
 		Utils.debug(this, "Setting game state to %s", state);
 		this.state = state;
 	}
+	
+	/* Getters for various game aspects */
 	
 	public State getState() {
 		return state;

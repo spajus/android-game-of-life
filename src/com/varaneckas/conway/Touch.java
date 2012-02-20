@@ -1,5 +1,15 @@
 package com.varaneckas.conway;
 
+/**
+ * Represents a finger touch on device screen. Has the coordinates and pressure.
+ * {@link #hashCode()} and {@link #equals(Object)} must be overridden to detect
+ * touches to same places. 
+ * 
+ * Touches with same coordinates but different pressure are considered to be 
+ * equal.
+ * 
+ * @author Tomas Varaneckas
+ */
 public class Touch {
 	
 	public int x;

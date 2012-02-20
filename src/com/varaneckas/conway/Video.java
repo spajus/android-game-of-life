@@ -68,25 +68,15 @@ public class Video {
 	}
 
 	private void drawUnprocessed(Canvas canvas) {
-		// TODO Auto-generated method stub
 		List<Cell> preview = new ArrayList<Cell>();
 		for (Touch touch : context.getInput().getUnprocessed()) {
 			preview.add(new Cell(touch.x, touch.y));
 		}
 		drawCells(canvas, preview, prePaint);
-		
 	}
 
 	private void drawCells(Canvas canvas, List<Cell> cells, Paint paint) {
 		for (Cell cell : cells) {
-			//canvas.drawPoint(cell.getX(), cell.getY(), cellPaint);
-			/*
-			canvas.drawCircle(
-					cell.getX() * SCALE, 
-					cell.getY() * SCALE, 
-					SCALE / 2, 
-					paint);
-					*/
 			canvas.drawRect(new Rect(
 					Math.round(cell.getX() * SCALE), 
 					Math.round(cell.getY() * SCALE), 
