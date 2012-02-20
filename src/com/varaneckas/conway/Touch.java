@@ -1,21 +1,15 @@
-package com.varaneckas.conway.logic;
+package com.varaneckas.conway;
 
-
-public class Cell {
+public class Touch {
 	
-	private final int x;
-	private final int y;
+	public int x;
+	public int y;
+	public float pressure;
 	
-	public Cell(int x, int y) {
-		this.x = x;
-		this.y = y;
-	}
-	
-	public int getX() {
-		return x;
-	}
-	public int getY() {
-		return y;
+	public Touch(float x, float y, float pressure) {
+		this.x = Math.round(x);
+		this.y = Math.round(y);
+		this.pressure = pressure;
 	}
 
 	@Override
@@ -35,7 +29,7 @@ public class Cell {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Cell other = (Cell) obj;
+		Touch other = (Touch) obj;
 		if (x != other.x)
 			return false;
 		if (y != other.y)
@@ -45,7 +39,7 @@ public class Cell {
 
 	@Override
 	public String toString() {
-		return "Cell [x=" + x + ", y=" + y + "]";
+		return "Touch [" + x + ":" + y + " @ " + pressure + "]";
 	}
-
+	
 }

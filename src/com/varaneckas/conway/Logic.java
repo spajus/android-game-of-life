@@ -1,4 +1,4 @@
-package com.varaneckas.conway.logic;
+package com.varaneckas.conway;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -8,21 +8,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import android.os.Looper;
 
-import com.varaneckas.conway.GameContext;
-import com.varaneckas.conway.MainLoop;
-import com.varaneckas.conway.Input.Touch;
-import com.varaneckas.conway.Utils;
 
-public class Physics {
+public class Logic {
 
 	private GameContext context;
 	private Map<Cell, Integer> neighbourMap = new IdentityHashMap<Cell, Integer>();
 	private final Collection<Cell> cells = new HashSet<Cell>(3000, 0.2f);
 	int cacheHits;
 
-	public Physics(GameContext context) {
+	public Logic(GameContext context) {
 		this.context = context;
 	}
 

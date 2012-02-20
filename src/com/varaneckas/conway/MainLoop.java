@@ -43,7 +43,7 @@ public class MainLoop implements Runnable {
 		//input
 		//AI
 		//physics
-		context.getPhysics().tick();
+		context.getLogic().tick();
 		//animations
 		//sound
 		//video

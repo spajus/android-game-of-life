@@ -9,8 +9,6 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.view.SurfaceHolder;
 
-import com.varaneckas.conway.Input.Touch;
-import com.varaneckas.conway.logic.Cell;
 
 public class Video {
 	
@@ -65,7 +63,7 @@ public class Video {
 	
 	private void drawProcessed(Canvas canvas) {
 		// TODO Auto-generated method stub
-		drawCells(canvas, context.getPhysics().getCells(), cellPaint);
+		drawCells(canvas, context.getLogic().getCells(), cellPaint);
 		
 	}
 
