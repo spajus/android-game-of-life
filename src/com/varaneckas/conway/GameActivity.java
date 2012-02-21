@@ -32,11 +32,12 @@ public class GameActivity extends Activity {
     	Utils.debug(this, "onCreate()");
         
     	super.onCreate(savedInstanceState);
+    	
+        // Get the instance of GameContext when main activity gets created.
+        gameContext = GameContext.getInstance();
         
-        // Create our GameContext when main activity gets created.
-        gameContext = GameContext.create();
-        
-        // Create the SurfaceView driven GameView where we will be drawing on
+        // Create the SurfaceView driven GameView where we will be 
+        // drawing on
         GameView gameView = new GameView(this);
         
         // View will require our GameContext, as it will start the main loop

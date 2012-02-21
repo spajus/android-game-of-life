@@ -1,5 +1,7 @@
 package com.varaneckas.conway;
 
+import android.util.Log;
+
 
 public class MainLoop implements Runnable {
 	
@@ -96,15 +98,22 @@ public class MainLoop implements Runnable {
 	 * http://www.rbgrn.net/content/54-getting-started-android-game-development
 	 */
 	private void update() {
-		
-		// Process input and recalculate cells.
-		context.getLogic().tick();
-		
-		// Draw new cell matrix on our game view.
-		context.getVideo().update();
-		
-		// Limits game speed on faster devices.
-		limitFPS();
+		try {
+			// Process input and recalculate cells.
+			context.getLogic().tick();
+			
+			// Draw new cell matrix on our game view.
+			context.getVideo().update();
+			
+			// Limits game speed on faster devices.
+			limitFPS();
+			
+		// Let's protect ourselves from a disaster when device draws the 
+		// exception popup.
+		} catch (Exception e) {
+			Log.e(MainLoop.class.getSimpleName(), 
+					"Unexpected exception in main loop", e);
+		}
 	}
 
 	/**

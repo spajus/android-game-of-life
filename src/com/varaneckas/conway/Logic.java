@@ -2,8 +2,8 @@ package com.varaneckas.conway;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -24,7 +24,7 @@ public class Logic {
 	 * Gives immense performance benefit compared to uncached version.
 	 */
 	private Map<Cell, Integer> neighborMap = 
-			new IdentityHashMap<Cell, Integer>();
+			new HashMap<Cell, Integer>();
 	
 	/**
 	 * Set of all the cells. Initial capacity and load factor should give
@@ -37,7 +37,7 @@ public class Logic {
 	 * implementation - you should study the Collections Framework well:
 	 * http://docs.oracle.com/javase/6/docs/technotes/guides/collections/reference.html
 	 */
-	private final Collection<Cell> cells = new HashSet<Cell>(3000, 0.2f);
+	private volatile Collection<Cell> cells = new HashSet<Cell>(3000, 0.2f);
 	
 	public Logic(GameContext context) {
 		this.context = context;
@@ -73,11 +73,14 @@ public class Logic {
 		// Cells that will be born during this generation
 		Collection<Cell> toAdd = new HashSet<Cell>();
 		
+		// New cell generation. Begins with a copy of the old one.
+		Collection<Cell> newCells = new HashSet<Cell>(cells);
+		
 		// Runs through all the cells and applies the game rules on them.
-		for (Cell cell : cells) {
+		for (Cell cell : newCells) {
 			
 			// We will need the neighbor count for every cell
-			int neighbors = countNeighbors(cell);
+			int neighbors = countNeighbors(cell, newCells);
 			
 			// Rule 1 through 3
 			if (neighbors < 2 || neighbors > 3) {
@@ -86,19 +89,22 @@ public class Logic {
 			
 			// Rule 4
 			if (neighbors > 0) {
-				collectNearbyRessurectionCandidates(cell, toAdd);
+				collectNearbyRessurectionCandidates(cell, newCells, toAdd);
 			}
 		}
 		
 		// Kill the death sentenced cells
-		cells.removeAll(toRemove);
+		newCells.removeAll(toRemove);
 		
 		// Do some babies
-		cells.addAll(toAdd);
+		newCells.addAll(toAdd);
 		
 		// Cleanup the cache so the calculations will not go wrong during the
 		// next tick.
-		neighborMap.clear();
+		neighborMap = new HashMap<Cell, Integer>();
+		
+		// Replace the generation
+		cells = newCells;
 		
 		// Do some profiling. 
 		long end = System.currentTimeMillis();
@@ -112,10 +118,11 @@ public class Logic {
 	/**
 	 * Calculates the count of neighbors for given cell.
 	 */
-	private int countNeighbors(Cell cell) {
+	private int countNeighbors(Cell cell, Collection<Cell> cells) {
 		
 		// See if there is a cached value
 		if (neighborMap.containsKey(cell)) {
+			// FIXME For some weird reasons sometimes this map becomes null.
 			return neighborMap.get(cell);
 		}
 		
@@ -164,6 +171,7 @@ public class Logic {
 	 * candidate collection.
 	 */
 	private void collectNearbyRessurectionCandidates(Cell cell, 
+			Collection<Cell> cells,
 			Collection<Cell> candidates) {
 		
 		int x = cell.getX();
@@ -191,7 +199,7 @@ public class Logic {
 				if (cells.contains(c) || candidates.contains(c)) {
 					continue; //Already there
 				} else {
-					int neighbours = countNeighbors(c);
+					int neighbours = countNeighbors(c, cells);
 					if (neighbours == 3) {
 						// Schedule virtual cell for resurrection.
 						candidates.add(c);

@@ -23,6 +23,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	private GameContext gameContext;
 	
 	/**
+	 * This will let us know if game is running already so we don't restart it
+	 * on canvas rotation.
+	 */
+	private boolean gameRunning;
+	
+	/**
 	 * Video will be used 
 	 */
 	private Video video;
@@ -89,18 +95,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	public void surfaceCreated(SurfaceHolder holder) {
 		Utils.debug(this, "Surface created");
 		
-		// At this point we can start drawing on our GameView, so let's start
-		// the main loop.
-		gameContext.getGameLoop().start();
+		if (!gameRunning) {
+			// At this point we can start drawing on our GameView, so let's 
+			// start the main loop.
+			gameContext.getGameLoop().start();
+			gameRunning = true;
+		}
 	}
 
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
-		
 		Utils.debug(this, "Surface destroyed");
-		
-		// Stop the game when surface gets destroyed.
-		gameContext.setState(State.STOPPED);
+		// We don't want to do anything here, because surface gets destroyed
+		// and recreated on screen rotation.
 	}
 
 }

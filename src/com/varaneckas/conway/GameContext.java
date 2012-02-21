@@ -15,6 +15,12 @@ package com.varaneckas.conway;
 public class GameContext {
 	
 	/**
+	 * Singleton instance.
+	 * @see #getInstance()
+	 */
+	private static GameContext instance;
+	
+	/**
 	 * The game state. {@link MainLoop} switches it's logic according to it. 
 	 */
 	private State state;
@@ -52,11 +58,16 @@ public class GameContext {
 	}
 	
 	/** 
-	 * Static factory method that creates the instance of {@link GameContext}.
-	 * @return new instance of {@link GameContext}.
+	 * Singleton getter that returns the instance of GameContext.
+	 * We need a singleton here because when screen is rotated, Activity and
+	 * View gets destroyed and created again, but we have to retain the game
+	 * state.
 	 */
-	public static GameContext create() {
-		return new GameContext();
+	public static GameContext getInstance() {
+		if (instance == null) {
+			instance = new GameContext();
+		}
+		return instance;
 	}
 
 	/**
