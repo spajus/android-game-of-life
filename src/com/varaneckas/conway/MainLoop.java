@@ -2,15 +2,29 @@ package com.varaneckas.conway;
 
 import android.util.Log;
 
-
+/**
+ * Main loop of the game. Controls the pulse.
+ * 
+ * @author Tomas Varaneckas
+ * @see #update()
+ */
 public class MainLoop implements Runnable {
 	
 	private final GameContext context;
 	
+	/**
+	 * Our desired frame duration.
+	 */
 	public final static long MIN_TICK_TIME = 200;
 	
+	/**
+	 * Time when last update happened. Used for controlling the frame rate.
+	 */
 	private long lastUpdate;
 	
+	/**
+	 * The main loop {@link Thread}.
+	 */
 	private Thread mainLoop;
 	
 	public MainLoop(GameContext context) {

@@ -23,7 +23,7 @@ public class Logic {
 	 * A simple cache for cell neighbor count. Cleaned up after each tick.
 	 * Gives immense performance benefit compared to uncached version.
 	 */
-	private Map<Cell, Integer> neighborMap = 
+	private volatile Map<Cell, Integer> neighborMap = 
 			new HashMap<Cell, Integer>();
 	
 	/**

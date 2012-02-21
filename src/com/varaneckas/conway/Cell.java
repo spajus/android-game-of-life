@@ -1,6 +1,10 @@
 package com.varaneckas.conway;
 
-
+/**
+ * A living cell in Conway's Game of Life. Knows it's coordinates.
+ * 
+ * @author Tomas Varaneckas
+ */
 public class Cell {
 	
 	private final int x;
@@ -47,5 +51,4 @@ public class Cell {
 	public String toString() {
 		return "Cell [x=" + x + ", y=" + y + "]";
 	}
-
 }
